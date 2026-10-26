@@ -738,17 +738,19 @@ with keyword_tab:
 with youtube_tab:
     st.header("📺 YouTube Popular Videos")
 
-    st.caption(
-        "Opens Google Trends Explore with YouTube Search selected "
-        "for the last 7 days."
-    )
-
     api_key = st.secrets.get("YOUTUBE_API_KEY", "")
 
     region = st.selectbox(
-        "Country",
-        ["IN", "US", "GB", "CA", "AU"],
+        "Select Country",
+        options=["IN", "US", "GB", "CA", "AU"],
         index=0
+    )
+
+    max_results = st.slider(
+        "Number of videos",
+        min_value=5,
+        max_value=50,
+        value=10
     )
 
     max_results = st.slider(
