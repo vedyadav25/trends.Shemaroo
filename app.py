@@ -734,19 +734,16 @@ with keyword_tab:
 
 
 # ---------------- YOUTUBE TRENDS ----------------
+
 with youtube_tab:
     st.header("📺 YouTube Popular Videos")
-    #st.link_button(
-     #   "Open Google Trends — YouTube Search (Last 7 Days)",
-      #  "https://trends.google.com/trends/explore?date=now%207-d&gprop=youtube&hl=en-US"
-    #)
-    st.caption("Opens Google Trends Explore with YouTube Search selected for the last 7 days.")
 
-    api_key = st.text_input(
-        "YouTube Data API key",
-        type="password",
-        help="Enter your YouTube Data API key."
+    st.caption(
+        "Opens Google Trends Explore with YouTube Search selected "
+        "for the last 7 days."
     )
+
+    api_key = st.secrets.get("YOUTUBE_API_KEY", "")
 
     region = st.selectbox(
         "Country",
@@ -762,14 +759,15 @@ with youtube_tab:
     )
 
     if st.button("Load YouTube Trends"):
-        if not api_key.strip():
-            st.warning("Please enter your YouTube API key.")
+        if not api_key:
+            st.error(
+                "YouTube API key is missing from Streamlit Secrets. "
+                "Please check your app settings."
+            )
         else:
             try:
                 with st.spinner("Fetching popular YouTube videos..."):
-                    url = (
-                        "https://www.googleapis.com/youtube/v3/videos"
-                    )
+                    url = "https://www.googleapis.com/youtube/v3/videos"
 
                     params = {
                         "part": "snippet,statistics",
@@ -808,6 +806,7 @@ with youtube_tab:
 
                     if rows:
                         df = pd.DataFrame(rows)
+
                         st.dataframe(
                             df,
                             use_container_width=True,
@@ -817,7 +816,7 @@ with youtube_tab:
                         st.download_button(
                             "Download YouTube Trends CSV",
                             df.to_csv(index=False).encode("utf-8"),
-                            "youtube_trends_india.csv",
+                            "youtube_trends.csv",
                             "text/csv"
                         )
                     else:
