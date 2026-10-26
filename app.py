@@ -745,7 +745,6 @@ with youtube_tab:
         options=["IN", "US", "GB", "CA", "AU"],
         index=0
     )
-
     max_results = st.slider(
         "Number of videos",
         min_value=5,
