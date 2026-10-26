@@ -1324,13 +1324,4 @@ with live_tab:
 st.divider()
 st.caption("TrendScope | Google + YouTube")
 
-#
-import subprocess
-import sys
 
-subprocess.Popen([
-    sys.executable, "-m", "streamlit", "run",
-    r"D:\TrendScope_India\app.py",
-    "--server.address", "0.0.0.0",
-    "--server.port", "8502"
-])
